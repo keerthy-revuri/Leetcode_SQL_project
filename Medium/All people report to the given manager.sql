@@ -53,20 +53,11 @@
 -- The employees with employee_id 3, 8 and 9 don't report their work to head of company directly or indirectly.
 
 -- Solution
-select employee_id
-from employees
-where manager_id = 1 and employee_id != 1
-union
-select employee_id
-from employees
-where manager_id = any (select employee_id
-from employees
-where manager_id = 1 and employee_id != 1)
-union
-select employee_id
-from employees
-where manager_id = any (select employee_id
-from employees
-where manager_id = any (select employee_id
-from employees
-where manager_id = 1 and employee_id != 1))
+select employee_id from Empp where manager_id = 1 and employee_id != 1
+union all
+select employee_id from Empp where manager_id in (select employee_id from Empp where manager_id = 1 and employee_id != 1)
+union all
+select employee_id from Empp where manager_id in (select employee_id from Empp where manager_id in
+(select employee_id from Empp where manager_id = 1 and employee_id != 1))
+
+
